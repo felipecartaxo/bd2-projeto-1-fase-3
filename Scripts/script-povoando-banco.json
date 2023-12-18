@@ -1,0 +1,44 @@
+// Populando coleção Clientes
+db.Clientes.insertMany([
+  { nome: "João", cep: "12345678910", email: "joao123@hotmail.com", fone: "988887777"}, // Decidiu não informar o gênero
+  { nome: "Felipe Cartaxo", cep: "58085370", email: "felipecartaxo1@gmail.com.br", fone: "986716883", genero: "M"},
+  { nome: "Maria", cep: "00011122233", email: "maria@gmail.com.br", fone: "988215446", genero: "F"},
+  { nome: "Karen", cep: "58084683", email: "karenneraky@gmail.com", fone: "988215446", genero: "F"},
+  { nome: "Paula", cep: "11112222", email: "paula@yahoo.com", fone: "333333333", genero: "F"},
+  { nome: "Lídia Maria", cep: "58199442", email: "lidiamaria@hotmail.com", fone: "988034845", genero: "F"},
+  { nome: "Marcos", cep: "98345123", email: "marcus@yahoo.com", fone: "88889999", genero: "F"},
+  { nome: "Fernanda", cep: "87654321", email: "fernanda@gmail.com", fone: "777777777"}, // Decidiu não informar o gênero
+  { nome: "Roberto", cep: "11223344", email: "roberto@outlook.com", fone: "888888888", genero: "M"},
+  { nome: "Carol", cep: "63012589", email: "carol@hotmail.com", fone: "32245871", genero: "F"}
+])
+
+// Populando a coleção Produtos
+db.Produtos.insertMany([
+  {nome: "Computador", preco: 4999.99, quantidade: 5, fornecedor: {nome: "TecnoComputers Ltda.", cep: "12345678", email: "tecnocomputers@email.com", fone: ["123456789", "988776655"], tipo: "J"}, categoria: "Computadores & Notebooks"},
+  {nome: "Notebook", preco: 2499.99, quantidade: 20, fornecedor: {nome: "TecnoComputers Ltda.", cep: "12345678", email: "tecnocomputers@email.com", fone: ["123456789", "988776655"], tipo: "J"}, categoria: "Computadores & Notebooks"},
+  {nome: "Impressora Laser", preco: 899.99, quantidade: 10, fornecedor: {nome: "TechSupply Ltda", cep: "98765432", email: "techsupply@email.com", fone: ["555558888"], tipo: "J"}, categoria: "Impressoras"},
+  {nome: "Cartuchos de tinta", preco: 24.99, quantidade: 1000, fornecedor: {nome: "TechSupply Ltda", cep: "98765432", email: "techsupply@email.com", fone: ["555558888"], tipo: "J"}, categoria: "Impressoras"},
+  {nome: "Mouse USB", preco: 29.99, quantidade: 800, fornecedor: {nome: "MobileTech Solutions", cep: "87654321", email: "mobiletech@email.com", fone: ["987654321"], tipo: "J"}, categoria: "Periféricos"},
+  {nome: "Smartphone", preco: 1999.99, quantidade: 50, fornecedor: {nome: "Maria Rebeca", cep: "11112222", email: "mariarebeca@email.com", fone: ["555555555"], tipo: "F"}, categoria: "Celulares & Smartphones"},
+  {nome: "Capa para Celular", preco: 19.99, quantidade: 500, fornecedor: {nome: "MobileTech Solutions", cep: "87654321", email: "mobiletech@email.com", fone: ["987654321"], categoria: "Acessórios para Celulares"}}
+])
+  
+// Insere um documento na coleção Pedido
+
+db.Pedidos.insertMany([
+  {_id: ObjectId("6580c6eceb503e192c0e5eae"), produtos: [ObjectId(
+  "6580cf36eb503e192c0e5eb8")], data: "01/01/2023", tipo: "Drone", quantidade: 1, status: "Entregue"},
+
+])
+db.Pedidos.insertMany([
+  {_id: ObjectId("6580c6eceb503e192c0e5eae"), produtos: , data: "23-01-15", tipo: "Drone", quantidade: 1, status: "Entregue"},
+  {_id: , data: , tipo: , quantidade: , status: },
+  {_id: , data: , tipo: , quantidade: , status: },
+  {_id: , data: , tipo: , quantidade: , status: },
+  {_id: , data: , tipo: , quantidade: , status: },
+  {_id: , data: , tipo: , quantidade: , status: },
+  {_id: , data: , tipo: , quantidade: , status: },
+  {_id: , data: , tipo: , quantidade: , status: },
+  {_id: , data: , tipo: , quantidade: , status: },
+  {_id: ObjectId("6580c6eceb503e192c0e5eae", data: "2023-12-01", tipo: "Correio", quantidade: 2, status: }
+])
