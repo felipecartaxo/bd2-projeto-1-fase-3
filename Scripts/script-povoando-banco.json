@@ -1,4 +1,3 @@
-// Populando coleção Clientes
 db.Clientes.insertMany([
   { nome: "João", cep: "12345678910", email: "joao123@hotmail.com", fone: "988887777"}, // Decidiu não informar o gênero
   { nome: "Felipe Cartaxo", cep: "58085370", email: "felipecartaxo1@gmail.com.br", fone: "986716883", genero: "M"},
@@ -12,7 +11,6 @@ db.Clientes.insertMany([
   { nome: "Carol", cep: "63012589", email: "carol@hotmail.com", fone: "32245871", genero: "F"}
 ])
 
-// Populando a coleção Produtos
 db.Produtos.insertMany([
   {nome: "Computador", preco: 4999.99, quantidade: 5, fornecedor: {nome: "TecnoComputers Ltda.", cep: "12345678", email: "tecnocomputers@email.com", fone: ["123456789", "988776655"], tipo: "J"}, categoria: "Computadores & Notebooks"},
   {nome: "Notebook", preco: 2499.99, quantidade: 20, fornecedor: {nome: "TecnoComputers Ltda.", cep: "12345678", email: "tecnocomputers@email.com", fone: ["123456789", "988776655"], tipo: "J"}, categoria: "Computadores & Notebooks"},
@@ -23,13 +21,12 @@ db.Produtos.insertMany([
   {nome: "Capa para Celular", preco: 19.99, quantidade: 500, fornecedor: {nome: "MobileTech Solutions", cep: "87654321", email: "mobiletech@email.com", fone: ["987654321"], categoria: "Acessórios para Celulares"}}
 ])
   
-// Insere um documento na coleção Pedido
-
 db.Pedidos.insertMany([
   {_id: ObjectId("6580c6eceb503e192c0e5eae"), produtos: [ObjectId(
   "6580cf36eb503e192c0e5eb8")], data: "01/01/2023", tipo: "Drone", quantidade: 1, status: "Entregue"},
 
 ])
+
 db.Pedidos.insertMany([
   {_id: ObjectId("6580c6eceb503e192c0e5eae"), produtos: , data: "23-01-15", tipo: "Drone", quantidade: 1, status: "Entregue"},
   {_id: , data: , tipo: , quantidade: , status: },
