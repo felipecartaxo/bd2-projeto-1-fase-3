@@ -18,7 +18,10 @@ db.Produtos.insertMany([
   {nome: "Cartuchos de tinta", preco: 24.99, quantidade: 1000, fornecedor: {nome: "TechSupply Ltda", cep: "98765432", email: "techsupply@email.com", fone: ["555558888"], tipo: "J"}, categoria: "Impressoras"},
   {nome: "Mouse USB", preco: 29.99, quantidade: 800, fornecedor: {nome: "MobileTech Solutions", cep: "87654321", email: "mobiletech@email.com", fone: ["987654321"], tipo: "J"}, categoria: "Periféricos"},
   {nome: "Smartphone", preco: 1999.99, quantidade: 50, fornecedor: {nome: "Maria Rebeca", cep: "11112222", email: "mariarebeca@email.com", fone: ["555555555"], tipo: "F"}, categoria: "Celulares & Smartphones"},
-  {nome: "Capa para Celular", preco: 19.99, quantidade: 500, fornecedor: {nome: "MobileTech Solutions", cep: "87654321", email: "mobiletech@email.com", fone: ["987654321"], categoria: "Acessórios para Celulares"}}
+  {nome: "Capa para Celular", preco: 19.99, quantidade: 500, fornecedor: {nome: "MobileTech Solutions", cep: "87654321", email: "mobiletech@email.com", fone: ["987654321"], categoria: "Acessórios para Celulares"}, categoria: "Celulares & Smartphones"},
+  {nome: "Teclado Wireless", preco: 69.99, quantidade: 400, fornecedor: {nome: "TechSupply Ltd", cep: "98765432", email: "techsupply@email.com", fone: ["555558888"], tipo: "J"}, categoria: "Periféricos"},
+  {nome: "Nintendo Switch", preco: 2010.00, quantidade: 10, fornecedor: {nome: "Casa do Mario", cep: "58054755", email: "casadomario@email.com", fone: ["656829475"], tipo: "J"}, categoria: "Videogames"},
+  {nome: "PS5", preco: 3699.99, quantidade: 50, fornecedor: {nome: "Casa do Mario", cep: "58054755", email: "casadomario@email.com", fone: ["656829475"], tipo: "J"}, categoria: "Videogames"}
 ])
   
 db.Pedidos.insertMany([
