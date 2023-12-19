@@ -1,0 +1,3 @@
+*.mongodb linguist-detectable=true
+*.mongodb linguist-language=sql
+*.mongodb text
