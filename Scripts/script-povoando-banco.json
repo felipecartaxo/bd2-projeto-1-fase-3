@@ -162,14 +162,3 @@ db.Pedido.insertMany([
     ], data: "16/12/2023", tipo: "Drone",  status: "Entrega em andamento"
   } // Maria compra 1 smartphone e 2 capas de celular
 ])
-
-// 2 consultas com pelo menos filtros diversos (IN, GT, etc), sem projeção
-
-  // Levantamento dos pedidos com "sobra" no estoque
-  db.Produto.find({ quantidade: { $gte: 100, $lte: 1000 } })
-
-  // Verifica quais produtos estão na categoria 'Periféricos'
-  db.Produto.find({categoria: "Periféricos"}, {})
-
-  // Verifica todos os produtos que a fornecedora ‘TecnoComputers’ está ofertando
-  db.Produto.find({ 'fornecedor.nome': { $in: ['TecnoComputers Ltda.'] } })

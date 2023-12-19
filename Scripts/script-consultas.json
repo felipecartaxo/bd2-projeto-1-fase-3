@@ -1,0 +1,25 @@
+// 2 consultas com pelo menos filtros diversos (IN, GT, etc), sem projeção
+
+  // Levantamento dos pedidos com "sobra" no estoque
+  db.Produto.find({ quantidade: { $gte: 100, $lte: 1000 } })
+
+  // Verifica quais produtos estão na categoria 'Periféricos'
+  db.Produto.find({categoria: "Periféricos"}, {})
+
+  // Verifica todos os produtos que a fornecedora ‘TecnoComputers’ está ofertando
+  db.Produto.find({ 'fornecedor.nome': { $in: ['TecnoComputers Ltda.'] } })
+
+// 2 consultas com pelo menos filtros diversos e com projeção;
+    // Retorna o nome e o preço de todos os produtos que pertencem às categorias Periféricos, Impressoras ou Celulares & Smartphones e que custam até 100 reais
+    db.Produtos.find(
+    {
+        categoria: { $in: ["Periféricos", "Impressoras", "Celulares & Smartphones"] },
+        preco: { $lt: 100 }
+    },
+    { _id: 0, nome: 1, preco: 1 }
+    )
+    
+    // Retorna o nome e o preço dos produtos que custam entre 3000 e 5000 reais
+    db.Produto.find({ preco: { $gte: 3000, $lte: 5000 } }, {_id: 0, nome: 1, preco: 1})
+    
+// 
