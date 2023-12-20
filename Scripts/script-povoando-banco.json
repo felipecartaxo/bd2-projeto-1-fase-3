@@ -106,59 +106,59 @@ db.Pedido.insertMany([
   {_id: 1, clienteId: 1, produtos: [
       {produtoId: 1, quantidade: 1
       }
-    ], data: "01/01/2023", tipo: "Drone", status: "Entregue"
+    ], data: ISODate("2023-01-01"), tipo: "Drone", status: "Entregue"
   }, // João compra 1 computador
   {_id: 2, clienteId: 2, produtos: [
       {produtoId: 1, quantidade: 2
       },
       {produtoId: 2, quantidade: 3
       }
-    ], data: "18/12/2023", tipo: "Correio", status: "Aguardando confirmação"
+    ], data: ISODate("2023-12-18"), tipo: "Correio", status: "Aguardando confirmação"
   }, // Felipe compra 2 computadores e 3 notebooks
   {_id: 3, clienteId: 3, produtos: [
       {produtoId: 3, quantidade: 2
       }
-    ], data: "14/03/2023", tipo: "Transportadora Veloz", status: "Bloqueado"
+    ], data: ISODate("2023-03-14"), tipo: "Transportadora Veloz", status: "Bloqueado"
   }, // Maria compra 2 impressoras
   {_id: 4, clienteId: 4, produtos: [
       {produtoId: 3, quantidade: 3
       },
       {produtoId: 4, quantidade: 10
       }
-    ], data: "20/03/2023", tipo: "Transportadora Veloz", status: "Entrega em andamento"
+    ], data: ISODate("2023-03-20"), tipo: "Transportadora Veloz", status: "Entrega em andamento"
   }, // Karen compra 3 impressoras e 10 cartuchos
   {_id: 5, clienteId: 5, produtos: [
       {produtoId: 5, quantidade: 40
       },
       {produtoId: 8, quantidade: 20
       }
-    ], data: "25/04/2023", tipo: "Transportadora Veloz", status: "Entregue"
+    ], data: ISODate("2023-04-25"), tipo: "Transportadora Veloz", status: "Entregue"
   }, // Paula compra 40 mouses USB e 20 teclados wireless
   {_id: 6, clienteId: 6, produtos: [
       {produtoId: 6, quantidade: 3
       }
-    ], data: "15/10/2023", tipo: "Drone", status: "Entregue"
+    ], data: ISODate("2023-10-15"), tipo: "Drone", status: "Entregue"
   }, // Lídia compra 3 smartphones
   {_id: 7, clienteId: 6, produtos: [
       {produtoId: 9, quantidade: 1
       }
-    ], data: "08/06/2023", tipo: "Transportadora Veloz", status: "Bloqueado"
+    ], data: ISODate("2023-06-08"), tipo: "Transportadora Veloz", status: "Bloqueado"
   }, // Lídia tentou comprar 1 nintendo switch
   {_id: 8, clienteId: 7, produtos: [
       {produtoId: 10, quantidade: 2
       }
-    ], data: "09/12/2023", tipo: "Correio", status: "Aguardando confirmação"
+    ], data: ISODate("2023-12-09"), tipo: "Correio", status: "Aguardando confirmação"
   }, // Marcos compra 2 PS5
   {_id: 9, clienteId: 8, produtos: [
       {produtoId: 2, quantidade: 2
       }
-    ], data: "30/06/2023", tipo: "Transportadora Veloz", status: "Entregue"
+    ], data: ISODate("2023-06-30"), tipo: "Transportadora Veloz", status: "Entregue"
   }, // Fernanda compra 2 Notebooks
   {_id: 10, clienteId: 3, produtos: [
       {produtoId: 6, quantidade: 1
       },
       {produtoId: 7, quantidade: 2
       }
-    ], data: "16/12/2023", tipo: "Drone",  status: "Entrega em andamento"
+    ], data: ISODate("2023-12-16"), tipo: "Drone",  status: "Entrega em andamento"
   } // Maria compra 1 smartphone e 2 capas de celular
 ])

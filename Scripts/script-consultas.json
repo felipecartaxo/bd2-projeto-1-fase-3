@@ -1,25 +1,139 @@
-// 2 consultas com pelo menos filtros diversos (IN, GT, etc), sem projeção
+// 2 consultas com pelo menos filtros diversos (IN, GT, etc), sem projeção;
+    // Lista os produtos nas categorias "Celulares & Smartphones" e "Periféricos" com quantidade em estoque maior ou igual a 500:
+    db.Produto.find(
+    {
+        categoria: { $in: ["Celulares & Smartphones", "Periféricos"] },
+        quantidade: { $gte: 500 }
+    },
+    { _id: 0, nome: 1, categoria: 1, quantidade: 1 }
+    )
 
-  // Levantamento dos pedidos com "sobra" no estoque
-  db.Produto.find({ quantidade: { $gte: 100, $lte: 1000 } })
+    // Lista os produtos que estão na categoria “Computadores & Notebooks” e “Videogames” e que custam entre 2500 a 5000 reais
 
-  // Verifica quais produtos estão na categoria 'Periféricos'
-  db.Produto.find({categoria: "Periféricos"}, {})
+    db.Produto.find(
+    {
+        categoria: { $in: ["Computadores & Notebooks", "Videogames"] },
+        preco: { $gte: 2500, $lte: 5000 }
+    }
+    )
 
-  // Verifica todos os produtos que a fornecedora ‘TecnoComputers’ está ofertando
-  db.Produto.find({ 'fornecedor.nome': { $in: ['TecnoComputers Ltda.'] } })
+    // Lista todos os pedidos feitos por "Drone" entre Junho e Dezembro de 2023
+    db.Pedido.find(
+    {
+        tipo: "Drone",
+        data: {
+        $gte: ISODate("2023-06-01T00:00:00Z"),
+        $lte: ISODate("2023-12-31T23:59:59Z")
+        }
+    }
+    )
 
 // 2 consultas com pelo menos filtros diversos e com projeção;
-    // Retorna o nome e o preço de todos os produtos que pertencem às categorias Periféricos, Impressoras ou Celulares & Smartphones e que custam até 100 reais
-    db.Produtos.find(
+    // Exibe o nome, preço e categoria de todos os produtos que pertencem às categorias Periféricos, Impressoras ou Celulares & Smartphones e que custam até 100 reais
+    db.Produto.find(
     {
         categoria: { $in: ["Periféricos", "Impressoras", "Celulares & Smartphones"] },
         preco: { $lt: 100 }
     },
-    { _id: 0, nome: 1, preco: 1 }
+    { _id: 0, nome: 1, preco: 1, categoria: 1 }
     )
-    
-    // Retorna o nome e o preço dos produtos que custam entre 3000 e 5000 reais
-    db.Produto.find({ preco: { $gte: 3000, $lte: 5000 } }, {_id: 0, nome: 1, preco: 1})
-    
-// 
+
+    // Retorna preço, categoria, nome do fornecedor, email do fornecedor e telefone(s) do fornecedor dos produtos que estão nas categorias “Computadores & Notebooks”, “Impressoras”, “Celulares & Smartphones”, que custam 1500 reais ou mais e cujo fornecedor é uma pessoa física:
+
+    db.Produto.find(
+    {
+        categoria: { $in: ["Computadores & Notebooks", "Impressoras", "Celulares & Smartphones"] },
+    preco: { $gt: 1500 },
+    'fornecedor.tipo': 'F'
+    },
+    { _id: 0, nome: 1, preco: 1, categoria: 1, 'fornecedor.nome': 1, 'fornecedor.email': 1, 'fornecedor.fone': 1 }
+    )
+
+// 1 consulta com apenas projeção (sem filtro);
+    // Lista os dados de todos os clientes cadastrados no sistema
+    db.Cliente.find({}, { _id: 0, nome: 1, cpf: 1, cep: 1, email: 1, fone: 1})
+
+    // Lista dados a respeito dos produtos disponíveis
+    db.Produto.find({}, { _id: 0, nome: 1, preco: 1, quantidade: 1, 'fornecedor.nome': 1, categoria: 1 })
+
+    // Lista dados a respeito dos pedidos feitos
+    db.Pedido.find({}, { _id: 0, clienteId: 1, produtos: 1, data: 1, tipo: 1, status: 1})
+
+// 1 consulta com pelo menos acesso a elemento de array;
+    // Lista o id dos produtos, a quantidade dos produtos associados ao pedido, a data do pedido e o tipo de entrega de todos os pedidos
+    db.Pedido.find({}, { _id: 0, 'produtos.produtoId': 1, 'produtos.quantidade': 1, data: 1, tipo: 1 })
+
+    // Lista o id, nome, preco e quantidade de todos os produtos em estoque
+    db.Pedido.aggregate([
+    {
+        $lookup: {
+        from: "Produto",
+        localField: "produtos.produtoId",
+        foreignField: "_id",
+        as: "produto"
+        }
+    },
+    {
+        $project: {
+    _id: 1,
+    "produtos.produtoId": 1,
+    "produto.nome": 1,
+    "produto.preco": 1,
+    "produto.quantidade": 1
+        }
+    }
+    ])
+
+// 1 consulta com pelo menos acesso a estrutura/objeto embutido;
+    // Lista os produtos com detalhes do fornecedor
+    db.Produto.find({}, { _id: 0, nome: 1, preco: 1, fornecedor: { nome: 1, cep: 1, email: 1, fone: 1 } })
+
+// 1 consulta com pelo menos sort e limit e filtros e projeções;
+    // Lista nome, cpf, cep, e-mail e fone dos clientes do gênero feminino (F), ordenados por nome, limitando a 5 resultados
+    db.Cliente.find(
+    { genero: "F" },
+    { _id: 0, nome: 1, cpf: 1, cep: 1, email: 1, fone: 1 }
+    )
+    .sort({ nome: 1 })
+    .limit(5)
+
+// 1 consulta com pelo menos aggregate e lookup;
+    // Retorna o nome do cliente, a data do pedido, o nome da transportadora e o status dos pedidos que estão em andamento ou foram entregues e foram feitos entre Janeiro e Junho de 2023
+    db.Pedido.aggregate([
+    {
+        $match: {
+        $or: [
+            { status: "Entregue" },
+            { status: "Entrega em andamento" }
+        ],
+        data: {
+            $gte: ISODate("2023-01-01T00:00:00Z"),
+            $lte: ISODate("2023-06-30T23:59:59Z")
+        }
+        }
+    },
+    {
+        $lookup: {
+        from: "Cliente",
+        localField: "clienteId",
+        foreignField: "_id",
+        as: "cliente"
+        }
+    },
+    {
+        $project: {
+        _id: 0,
+        "cliente.nome": 1,
+        data: 1,
+        tipo: 1,
+        status: 1
+        }
+    }
+    ])
+
+    ➢ 1 outra consulta a seu critério, dentro do contexto da aplicação.
+    // Consulta para verificar quais clientes cadastrados não realizaram pedidos
+    db.Cliente.find(
+    { _id: { $nin: db.Pedido.distinct("clienteId") } },
+    { _id: 1, nome: 1 }
+    )
