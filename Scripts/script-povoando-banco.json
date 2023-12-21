@@ -1,4 +1,172 @@
-// Povoando as coleções
+// Cliente
+db.createCollection("Cliente", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["_id", "nome", "cpf", "cep", "email", "fone"],
+      properties: {
+        _id: {
+          bsonType: "int",
+          description: "Deve ser um inteiro e é obrigatório."
+        },
+        nome: {
+          bsonType: "string",
+          description: "Deve ser uma string e é obrigatório."
+        },
+        cpf: {
+          bsonType: "string",
+          description: "Deve ser uma string de 11 dígitos e é obrigatório."
+        },
+        cep: {
+          bsonType: "string",
+          description: "Deve ser uma string de 8 dígitos e é obrigatório."
+        },
+        email: {
+          bsonType: "string",
+                     description: "Deve seguir o formato de um e-mail e é obrigatório."
+        },
+        fone: {
+          bsonType: "string",
+          description: "Deve ser uma string de 9 dígitos e é obrigatório."
+        },
+        genero: {
+          bsonType: "string",
+          enum: ["M", "F"],
+          description: "Deve ser uma string contendo apenas 'M' ou 'F'."
+        }
+      }
+    }
+  }
+})
+
+// Produto
+db.createCollection("Produto", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+         required: ["_id", "nome", "preco", "quantidade", "fornecedor", "categoria"],
+         properties: {
+            _id: {
+               bsonType: "int",
+               description: "Deve ser um inteiro e é obrigatório."
+            },
+            nome: {
+               bsonType: "string",
+               description: "Deve ser uma string e é obrigatório."
+            },
+            preco: {
+               bsonType: "double",
+               minimum: 0,
+               description: "Deve ser um número decimal maior que 0 e é obrigatório."
+            },
+            quantidade: {
+               bsonType: "int",
+	   minimum: 0,
+               description: "Deve ser um número inteiro maior do que 0 e é obrigatório."
+            },
+            fornecedor: {
+               bsonType: "object",
+               required: ["nome", "cep", "email", "fone", "tipo"],
+               properties: {
+                  nome: {
+                     bsonType: "string",
+                     description: "Deve ser uma string."
+                  },
+                  cep: {
+                     bsonType: "string",
+          	        description: "Deve ser uma string de 8 dígitos e é obrigatório."
+                  },
+                  email: {
+                     bsonType: "string",
+                     description: "Deve seguir o formato de um e-mail e é obrigatório."
+                  },
+                  fone: {
+                     bsonType: "array",
+                     items: {
+                        bsonType: "string",
+                     },
+                     description: "Deve ser um array de strings seguindo o formato de um número de telefone."
+                  },
+                  tipo: {
+                     enum: ["J", "F"],
+                     description: 'Deve ser "J" ou "F".'
+                  }
+               }
+            },
+            categoria: {
+               bsonType: "string",
+               description: "Deve ser uma string."
+            },
+            pedidos: {
+               bsonType: "array",
+               description: "Pode ser um array vazio ou conter IDs de pedidos relacionados."
+            }
+         }
+      }
+   }
+});
+
+// Pedidos
+db.createCollection("Pedido", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["_id", "clienteId", "produtos", "status", "data", "tipo"],
+      properties: {
+        _id: {
+          bsonType: "number",  
+          minimum: 1,          
+          description: "Deve ser um campo obrigatório e maior que 0",
+        },
+        clienteId: {
+          bsonType: "number",  
+          description: "Deve ser um campo obrigatório"
+        },
+        produtos: {
+          bsonType: "array",
+          description: "Deve ser um array de objetos",
+          items: {
+            bsonType: "object",
+            required: ["quantidade", "produtoId"],
+            properties: {
+              quantidade: {
+                bsonType: "number",  
+                minimum: 1,
+                description: "Deve ser obrigatório e maior que 0"
+              },
+              produtoId: {
+                bsonType: "number",  
+                description: "Deve ser um campo obrigatório"
+              }
+            }
+          }
+        },
+        data: {
+          bsonType: "string",
+          description: "Deve ser um campo de data"
+        },
+        status: {
+          bsonType: "string",
+          enum: ["Entregue", "Entrega em andamento", "Bloqueado", "Aguardando confirmação"],
+          description: "Deve ser uma string com valor específico"
+        },
+        tipo: {
+          bsonType: "string",
+          enum: ["Drone", "Correio", "Transportadora Veloz"],
+          description: "Deve ser uma string com valor específico"
+        }
+      }
+    }
+  }
+});
+
+//índices de categoria e valor na coleção produto
+db.Produto.createIndex({ categoria: 1, valor: -1 })
+
+//indices de clienteId de Pedido
+db.Pedido.createIndex({clienteId:1})
+
+// Inserts em Cliente
 db.Cliente.insertMany([
   { _id: 1, nome: "João", cpf: "11122233344", cep: "12345678", email: "joao123@hotmail.com", fone: "988887777"
   }, // Decidiu não informar o gênero
@@ -12,16 +180,17 @@ db.Cliente.insertMany([
   },
   { _id: 6, nome: "Lídia", cpf: "66677788899", cep: "58199442", email: "lidiamaria@hotmail.com", fone: "988034845", genero: "F"
   },
-  { _id: 7, nome: "Marcos", cpf: "77788899900", cep: "98345123", email: "marcus@yahoo.com", fone: "88889999", genero: "F"
+  { _id: 7, nome: "Marcos", cpf: "77788899900", cep: "98345123", email: "marcus@yahoo.com", fone: "988889999", genero: "M"
   },
   { _id: 8, nome: "Fernanda", cpf: "88899900011", cep: "87654321", email: "fernanda@gmail.com", fone: "777777777"
   }, // Decidiu não informar o gênero
   { _id: 9, nome: "Roberto", cpf: "99900011122", cep: "11223344", email: "roberto@outlook.com", fone: "888888888", genero: "M"
   },
-  { _id: 10, nome: "Carol", cpf: "00011122233", cep: "63012589", email: "carol@hotmail.com", fone: "32245871", genero: "F"
+  { _id: 10, nome: "Carol", cpf: "00011122233", cep: "63012589", email: "carol@hotmail.com", fone: "932245871", genero: "F"
   }
 ])
 
+// Inserts em Produto
 db.Produto.insertMany([
   { _id: 1, nome: "Computador", preco: 4999.99, quantidade: 5, fornecedor: {nome: "TecnoComputers Ltda.", cep: "12345678", email: "tecnocomputers@email.com", fone: [
         "123456789",
@@ -64,7 +233,7 @@ db.Produto.insertMany([
     ]
   },
   { _id: 6, nome: "Smartphone", preco: 1999.99, quantidade: 50, fornecedor: {nome: "Maria Rebeca", cep: "11112222", email: "mariarebeca@email.com", fone: [
-        "555555555"
+        "955555555"
       ], tipo: "F"
     }, categoria: "Celulares & Smartphones", pedidos: [
       7,
@@ -73,7 +242,7 @@ db.Produto.insertMany([
   },
   { _id: 7, nome: "Capa para Celular", preco: 19.99, quantidade: 500, fornecedor: {nome: "MobileTech Solutions", cep: "87654321", email: "mobiletech@email.com", fone: [
         "987654321"
-      ], categoria: "Acessórios para Celulares"
+      ], tipo: "J"
     }, categoria: "Celulares & Smartphones", pedidos: [
       8
     ]
@@ -94,56 +263,63 @@ db.Produto.insertMany([
     ]
   },
   { _id: 10, nome: "PS5", preco: 3699.99, quantidade: 50, fornecedor: {nome: "Casa do Mario", cep: "58054755", email: "casadomario@email.com", fone: [
-        "656829475"
+        "656819475"
       ], tipo: "J"
     }, categoria: "Videogames", pedidos: [
       10
     ]
   }
 ])
-
+// Inserts em Pedido
 db.Pedido.insertMany([
   {_id: 1, clienteId: 1, produtos: [
       {produtoId: 1, quantidade: 1
       }
     ], data: ISODate("2023-01-01"), tipo: "Drone", status: "Entregue"
-  }, // João compra 1 computador
+  },
+// João compra 1 computador
   {_id: 2, clienteId: 2, produtos: [
       {produtoId: 1, quantidade: 2
       },
       {produtoId: 2, quantidade: 3
       }
     ], data: ISODate("2023-12-18"), tipo: "Correio", status: "Aguardando confirmação"
-  }, // Felipe compra 2 computadores e 3 notebooks
+  },
+// Felipe compra 2 computadores e 3 notebooks
   {_id: 3, clienteId: 3, produtos: [
       {produtoId: 3, quantidade: 2
       }
     ], data: ISODate("2023-03-14"), tipo: "Transportadora Veloz", status: "Bloqueado"
-  }, // Maria compra 2 impressoras
+  },
+// Maria compra 2 impressoras
   {_id: 4, clienteId: 4, produtos: [
       {produtoId: 3, quantidade: 3
       },
       {produtoId: 4, quantidade: 10
       }
     ], data: ISODate("2023-03-20"), tipo: "Transportadora Veloz", status: "Entrega em andamento"
-  }, // Karen compra 3 impressoras e 10 cartuchos
+  },
+// Karen compra 3 impressoras e 10 cartuchos
   {_id: 5, clienteId: 5, produtos: [
       {produtoId: 5, quantidade: 40
       },
       {produtoId: 8, quantidade: 20
       }
     ], data: ISODate("2023-04-25"), tipo: "Transportadora Veloz", status: "Entregue"
-  }, // Paula compra 40 mouses USB e 20 teclados wireless
+  },
+// Paula compra 40 mouses USB e 20 teclados wireless
   {_id: 6, clienteId: 6, produtos: [
       {produtoId: 6, quantidade: 3
       }
     ], data: ISODate("2023-10-15"), tipo: "Drone", status: "Entregue"
-  }, // Lídia compra 3 smartphones
+  },
+// Lídia compra 3 smartphones
   {_id: 7, clienteId: 6, produtos: [
       {produtoId: 9, quantidade: 1
       }
     ], data: ISODate("2023-06-08"), tipo: "Transportadora Veloz", status: "Bloqueado"
-  }, // Lídia tentou comprar 1 nintendo switch
+  },
+// Lídia tentou comprar 1 nintendo switch
   {_id: 8, clienteId: 7, produtos: [
       {produtoId: 10, quantidade: 2
       }
@@ -153,12 +329,14 @@ db.Pedido.insertMany([
       {produtoId: 2, quantidade: 2
       }
     ], data: ISODate("2023-06-30"), tipo: "Transportadora Veloz", status: "Entregue"
-  }, // Fernanda compra 2 Notebooks
+  },
+// Fernanda compra 2 Notebooks
   {_id: 10, clienteId: 3, produtos: [
       {produtoId: 6, quantidade: 1
       },
       {produtoId: 7, quantidade: 2
       }
     ], data: ISODate("2023-12-16"), tipo: "Drone",  status: "Entrega em andamento"
-  } // Maria compra 1 smartphone e 2 capas de celular
+  }
+// Maria compra 1 smartphone e 2 capas de celular
 ])
