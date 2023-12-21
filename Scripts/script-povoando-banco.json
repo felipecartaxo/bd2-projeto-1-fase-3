@@ -142,7 +142,7 @@ db.createCollection("Pedido", {
           }
         },
         data: {
-          bsonType: "string",
+          bsonType: "date",
           description: "Deve ser um campo de data"
         },
         status: {
